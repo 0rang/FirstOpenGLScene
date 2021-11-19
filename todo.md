@@ -1,3 +1,5 @@
+## Next Action: Import cube_with_light example from tut4. Be sure to clean it up eventually
+
 # 40-50
 [ ] A "complex" object/scen made of multiple glut objects
 [ ] Lighting 
