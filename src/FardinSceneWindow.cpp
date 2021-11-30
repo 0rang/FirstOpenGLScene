@@ -22,8 +22,8 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 
 	// create main widget
-    cubeWidget = new FardinSceneWidget(this);
-	windowLayout->addWidget(cubeWidget);
+    fardiWidget = new FardinSceneWidget(this);
+    windowLayout->addWidget(fardiWidget);
 
 	// create slider
 	nVerticesSlider = new QSlider(Qt::Horizontal);
@@ -33,7 +33,7 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
 FardinSceneWindow::~FardinSceneWindow()
 	{ // destructor
 	delete nVerticesSlider;
-	delete cubeWidget;
+    delete fardiWidget;
 	delete windowLayout;
     /*
     delete actionQuit;
@@ -53,6 +53,6 @@ void FardinSceneWindow::ResetInterface()
     //nVerticesSlider->setValue(thePolygon->nVertices);
 	
 	// now force refresh
-	cubeWidget->update();
+    fardiWidget->update();
 	update();
 	} // ResetInterface()

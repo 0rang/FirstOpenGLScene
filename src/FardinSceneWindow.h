@@ -28,7 +28,7 @@ class FardinSceneWindow: public QWidget
 	QBoxLayout *windowLayout;
 
 	// beneath that, the main widget
-    FardinSceneWidget *cubeWidget;
+    FardinSceneWidget *fardiWidget;
 	// and a slider for the number of vertices
 	QSlider *nVerticesSlider;
 
