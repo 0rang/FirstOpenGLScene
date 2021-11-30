@@ -1,4 +1,5 @@
-#include <GL/glu.h>
+// #include <GL/glu.h>
+#include <GL/glut.h>
 #include <QGLWidget>
 #include "FardinSceneWidget.h"
 
