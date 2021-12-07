@@ -10,6 +10,7 @@
 # 60-70
 [ ] Animation i.e rotating objects
 [ ] Texture mapping
+- Marc says just setting the u,v is fine, although you mmight get creativity points for using the wrapping modes 
 [ ] Convex object constructed from polygons
 
 # 70-100
