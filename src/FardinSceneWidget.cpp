@@ -74,55 +74,55 @@ void FardinSceneWidget::resizeGL(int w, int h)
 void FardinSceneWidget::cube(){
 
   // Here are the normals, correctly calculated for the cube faces below  
-  //GLfloat normals[][3] = { {1., 0. ,0.}, {-1., 0., 0.}, {0., 0., 1.}, {0., 0., -1.} };
+  GLfloat normals[][3] = { {1., 0. ,0.}, {-1., 0., 0.}, {0., 0., 1.}, {0., 0., -1.} };
 
   // Here we give every face the same normal
   //GLfloat normals[][3] = { {0.333, 0.333, 0.333 }, {0.333, 0.333, 0.333}, {0.333, 0.333, 0.333}, {0.3333, 0.3333, 0.333}};
 
   // Here we have permuted the first normal array
-  GLfloat normals[][3] = {  {-1., 0., 0.}, {0., 0., 1.}, {0., 0. ,1.}, {0., 0., -1.} };
+  //GLfloat normals[][3] = {{-1., 0., 0.}, {0., 0., 1.}, {0., 0., 1.}, {0., 0., -1.}};
 
-  materialStruct* p_front = &brassMaterials;
-	
-  glMaterialfv(GL_FRONT, GL_AMBIENT,    p_front->ambient);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE,    p_front->diffuse);
-  glMaterialfv(GL_FRONT, GL_SPECULAR,   p_front->specular);
-  glMaterialf(GL_FRONT, GL_SHININESS,   p_front->shininess);
 
-//  glNormal3fv(normals[0]);
-//  glBegin(GL_POLYGON);
-//    glVertex3f( 1.0, -1.0,  1.0);
-//    glVertex3f( 1.0, -1.0, -1.0);
-//    glVertex3f( 1.0,  1.0, -1.0);
-//    glVertex3f( 1.0,  1.0,  1.0);
-//    glEnd();
+  materialStruct *p_front = &brassMaterials;
+
+  glMaterialfv(GL_FRONT, GL_AMBIENT, p_front->ambient);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, p_front->diffuse);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, p_front->specular);
+  glMaterialf(GL_FRONT, GL_SHININESS, p_front->shininess);
+
+  glNormal3fv(normals[0]);
+  glBegin(GL_POLYGON);
+  glVertex3f(1.0, -1.0, 1.0);
+  glVertex3f(1.0, -1.0, -1.0);
+  glVertex3f(1.0, 1.0, -1.0);
+  glVertex3f(1.0, 1.0, 1.0);
+  glEnd();
 
   glNormal3fv(normals[3]);
   glBegin(GL_POLYGON);
-    glVertex3f(-1.0, -1.0, -1.0);
-    glVertex3f( 1.0, -1.0, -1.0);
-    glVertex3f( 1.0,  1.0, -1.0);
-    glVertex3f(-1.0,  1.0, -1.0);
+  glVertex3f(-1.0, -1.0, -1.0);
+  glVertex3f(1.0, -1.0, -1.0);
+  glVertex3f(1.0, 1.0, -1.0);
+  glVertex3f(-1.0, 1.0, -1.0);
   glEnd();
 
   glNormal3fv(normals[2]);
   glBegin(GL_POLYGON);
-    glVertex3f(-1.0, -1.0, 1.0);
-    glVertex3f( 1.0, -1.0, 1.0);
-    glVertex3f( 1.0,  1.0, 1.0);
-    glVertex3f(-1.0,  1.0, 1.0);
+  glVertex3f(-1.0, -1.0, 1.0);
+  glVertex3f(1.0, -1.0, 1.0);
+  glVertex3f(1.0, 1.0, 1.0);
+  glVertex3f(-1.0, 1.0, 1.0);
   glEnd();
 
-//  glNormal3fv(normals[1]);
-//  glBegin(GL_POLYGON);
-//    glVertex3f( -1.0, -1.0,  1.0);
-//    glVertex3f( -1.0, -1.0, -1.0);
-//    glVertex3f( -1.0,  1.0, -1.0);
-//    glVertex3f( -1.0,  1.0,  1.0);
-//  glEnd();
-  
+  glNormal3fv(normals[1]);
+  glBegin(GL_POLYGON);
+  glVertex3f(-1.0, -1.0, 1.0);
+  glVertex3f(-1.0, -1.0, -1.0);
+  glVertex3f(-1.0, 1.0, -1.0);
+  glVertex3f(-1.0, 1.0, 1.0);
+  glEnd();
 }
-	
+
 // called every time the widget needs painting
 void FardinSceneWidget::paintGL()
 	{ // paintGL()
@@ -144,17 +144,23 @@ void FardinSceneWidget::paintGL()
 
 
 
-	this->cube();
+	
 
-    glPushMatrix();
-        glTranslatef(0, 2, 0);
-        glutSolidCube(2);
-    glPopMatrix();
+  glPushMatrix();
+      glTranslatef(0, 2, 0);
+      glutSolidCube(2);
+      // glPushMatrix();
+      //   glTranslatef(-1, 1, 0);
+      //   glutSolidSphere(2, 3, 3);
+      // glPopMatrix();
+  glPopMatrix();
+
+  //this->cube();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-       	gluLookAt(1.,1.,1., 0.0,0.0,0.0, 0.0,1.0,0.0);
+       	gluLookAt(1.,1.,1., 0.0,0.0,0.0, 0.0,1.0,0.0); //wait a sec, the up vector doesn't make any sense!!
        
 	
 	// flush to screen

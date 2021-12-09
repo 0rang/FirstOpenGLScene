@@ -3,12 +3,12 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = FardinScene
+TARGET = FardinSceneMain
 INCLUDEPATH += . /opt/local/include
 
 QT += widgets opengl gui 
 
-LIBS += -lGLU
+LIBS += -lGLU -lglut
 
 # Input
 HEADERS +=  \

@@ -20,3 +20,7 @@
 [ ] Various UI elements, e.g:
 - [ ] Controls to set radius or speed of the object
 - [ ] Dialogue boxes to control material properties
+
+# My own dumb ideas
+[ ] Mech animation where all of its glut components do some elastic movement in a randomly generated direction vector. then returns to normal
+[ ] Convex polygonal object can be a spinning top tetrahedron 
