@@ -21,6 +21,7 @@ class FardinSceneWidget: public QGLWidget
 	private:
 
 	void cube();
+    void spider();
 	void polygon(int, int, int, int);
 
 	}; // class GLPolygonWidget

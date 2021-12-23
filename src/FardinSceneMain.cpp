@@ -1,6 +1,5 @@
 #include <QApplication>
 #include <QVBoxLayout>
-#include <GL/glut.h>
 #include "FardinSceneWindow.h"
 
 int main(int argc, char *argv[])
@@ -11,8 +10,6 @@ int main(int argc, char *argv[])
 	// create model (polygon) as a triangle
 	//	GLPolygon *polygon = new GLPolygon();
 
-	glutInit(&argc, argv);
-
 	// create a master widget
         FardinSceneWindow *window = new FardinSceneWindow(NULL);
 
@@ -20,7 +17,7 @@ int main(int argc, char *argv[])
 	//	GLPolygonController *controller = new GLPolygonController(window, polygon);
 
 	// resize the window
-	window->resize(512, 612);
+    window->resize(720, 720);
 
 	// show the label
 	window->show();

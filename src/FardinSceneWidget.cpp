@@ -1,31 +1,14 @@
-// #include <GL/glu.h>
-#include <GL/glut.h>
+
+#include "materials.h"
+#include <GL/glu.h>
 #include <QGLWidget>
 #include "FardinSceneWidget.h"
 
 
-// Setting up material properties
-typedef struct materialStruct {
-  GLfloat ambient[4];
-  GLfloat diffuse[4];
-  GLfloat specular[4];
-  GLfloat shininess;
-} materialStruct;
 
 
-static materialStruct brassMaterials = {
-  { 0.33, 0.22, 0.03, 1.0},
-  { 0.78, 0.57, 0.11, 1.0},
-  { 0.99, 0.91, 0.81, 1.0},
-  27.8 
-};
 
-static materialStruct whiteShinyMaterials = {
-  { 1.0, 1.0, 1.0, 1.0},
-  { 1.0, 1.0, 1.0, 1.0},
-  { 1.0, 1.0, 1.0, 1.0},
-  100.0 
-};
+
 
 
 // constructor
@@ -40,7 +23,7 @@ FardinSceneWidget::FardinSceneWidget(QWidget *parent)
 void FardinSceneWidget::initializeGL()
 	{ // initializeGL()
 	// set the widget background colour
-	glClearColor(0.3, 0.3, 0.3, 0.0);
+    glClearColor(0.3, 0.3, 0.3, 0.0);
 	
 
  
@@ -123,6 +106,25 @@ void FardinSceneWidget::cube(){
   glEnd();
 }
 
+
+void FardinSceneWidget::spider(){
+  glPushMatrix();
+
+    materialStruct& material = obsidianMaterial;
+    // set spider material
+    glMaterialfv(GL_FRONT, GL_AMBIENT, material.ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, material.diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, material.specular);
+    glMaterialf(GL_FRONT, GL_SHININESS, material.shininess);
+
+
+    // draw main body
+    GLUquadric* quadric = gluNewQuadric();
+    gluSphere(quadric, 2, 20, 20);
+    gluDeleteQuadric(quadric);
+  glPopMatrix();
+}
+
 // called every time the widget needs painting
 void FardinSceneWidget::paintGL()
 	{ // paintGL()
@@ -142,20 +144,10 @@ void FardinSceneWidget::paintGL()
         glLightf (GL_LIGHT0, GL_SPOT_CUTOFF,15.); // set light cutoff
 	glPopMatrix();
 
+    spider();
 
 
-	
-
-  glPushMatrix();
-      glTranslatef(0, 2, 0);
-      glutSolidCube(2);
-      // glPushMatrix();
-      //   glTranslatef(-1, 1, 0);
-      //   glutSolidSphere(2, 3, 3);
-      // glPopMatrix();
-  glPopMatrix();
-
-  //this->cube();
+    //this->cube();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

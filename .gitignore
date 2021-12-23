@@ -9,3 +9,4 @@ FardinSceneMain.o
 FardinSceneWidget.o
 FardinSceneWindow.o
 Makefile
+build-FardinScene-Desktop_Qt_5_15_1_MinGW_32_bit-Debug/*
