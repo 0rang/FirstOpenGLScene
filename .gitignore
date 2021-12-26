@@ -1,12 +1,7 @@
 # windows
 build-FardinScene-Desktop_Qt_5_15_1_MinGW_64_bit-Debug/
 src/FardinScene.pro.user
+build-FardinScene-Desktop_Qt_5_15_1_MinGW_32_bit-Debug
 
 # linux
-src/MakeFile
-FardinSceneMain
-FardinSceneMain.o
-FardinSceneWidget.o
-FardinSceneWindow.o
-Makefile
-build-FardinScene-Desktop_Qt_5_15_1_MinGW_32_bit-Debug/*
+build/
