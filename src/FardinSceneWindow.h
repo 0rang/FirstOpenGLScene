@@ -27,13 +27,13 @@ class FardinSceneWindow: public QWidget
 	// window layout
 	QBoxLayout *windowLayout;
 
+    QBoxLayout* toolbar;
+
 	// beneath that, the main widget
     FardinSceneWidget *fardiWidget;
 	// and a slider for the number of vertices
-	QSlider *nVerticesSlider;
+	QSlider *cameraAngleHoriSlider;
 
-	// resets all the interface elements
-	void ResetInterface();
 	}; 
 	
 #endif

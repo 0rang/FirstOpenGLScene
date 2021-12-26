@@ -4,19 +4,11 @@
 #include <QGLWidget>
 #include "FardinSceneWidget.h"
 
-
-
-
-
-
-
-
 // constructor
 FardinSceneWidget::FardinSceneWidget(QWidget *parent)
 	: QGLWidget(parent)
 	{ // constructor
-       
-
+       this->cameraAngleHori = 0;
 	} // constructor
 
 // called when OpenGL context is set up
@@ -49,10 +41,58 @@ void FardinSceneWidget::resizeGL(int w, int h)
                                                                                                                                                                
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
+    gluPerspective(90, 2, 0.2, 15);
+    //glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
 
 	} // resizeGL()
 
+void FardinSceneWidget::SetCameraAngleHori(int angle){
+    this->cameraAngleHori = angle;
+}
+
+void FardinSceneWidget::pyramid(){
+    // these should be correct
+    GLfloat normals[5][3] = {{0, -1, 0}, {0, 2, 1}, {-1, 2, 0}, {0, 2, -1}, {1, 2, 0}};
+
+    // base
+    glNormal3fv(normals[0]);
+    glBegin(GL_POLYGON);
+    glVertex3f(1, 0, 1);
+    glVertex3f(-1, 0, 1);
+    glVertex3f(-1, 0, -1);
+    glVertex3f(1, 0, -1);
+    glEnd();
+
+    // triangle walls
+    glNormal3fv(normals[1]);
+    glBegin(GL_POLYGON);
+    glVertex3f(0, 2, 0);
+    glVertex3f(1, 0, 1);
+    glVertex3f(-1, 0, 1);
+    glEnd();
+
+    glNormal3fv(normals[2]);
+    glBegin(GL_POLYGON);
+    glVertex3f(0, 2, 0);
+    glVertex3f(-1, 0, 1);
+    glVertex3f(-1, 0, -1);
+    glEnd();
+
+    glNormal3fv(normals[3]);
+    glBegin(GL_POLYGON);
+    glVertex3f(0, 2, 0);
+    glVertex3f(-1, 0, -1);
+    glVertex3f(1, 0, -1);
+    glEnd();
+
+    glNormal3fv(normals[4]);
+    glBegin(GL_POLYGON);
+    glVertex3f(0, 2, 0);
+    glVertex3f(1, 0, -1);
+    glVertex3f(1, 0, 1);
+    glEnd();
+
+}
 
 void FardinSceneWidget::cube(){
 
@@ -65,14 +105,6 @@ void FardinSceneWidget::cube(){
   // Here we have permuted the first normal array
   //GLfloat normals[][3] = {{-1., 0., 0.}, {0., 0., 1.}, {0., 0., 1.}, {0., 0., -1.}};
 
-
-  materialStruct *p_front = &brassMaterials;
-
-  glMaterialfv(GL_FRONT, GL_AMBIENT, p_front->ambient);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, p_front->diffuse);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, p_front->specular);
-  glMaterialf(GL_FRONT, GL_SHININESS, p_front->shininess);
-
   glNormal3fv(normals[0]);
   glBegin(GL_POLYGON);
   glVertex3f(1.0, -1.0, 1.0);
@@ -81,12 +113,12 @@ void FardinSceneWidget::cube(){
   glVertex3f(1.0, 1.0, 1.0);
   glEnd();
 
-  glNormal3fv(normals[3]);
+  glNormal3fv(normals[1]);
   glBegin(GL_POLYGON);
+  glVertex3f(-1.0, -1.0, 1.0);
   glVertex3f(-1.0, -1.0, -1.0);
-  glVertex3f(1.0, -1.0, -1.0);
-  glVertex3f(1.0, 1.0, -1.0);
   glVertex3f(-1.0, 1.0, -1.0);
+  glVertex3f(-1.0, 1.0, 1.0);
   glEnd();
 
   glNormal3fv(normals[2]);
@@ -97,65 +129,86 @@ void FardinSceneWidget::cube(){
   glVertex3f(-1.0, 1.0, 1.0);
   glEnd();
 
-  glNormal3fv(normals[1]);
+  glNormal3fv(normals[3]);
   glBegin(GL_POLYGON);
-  glVertex3f(-1.0, -1.0, 1.0);
   glVertex3f(-1.0, -1.0, -1.0);
+  glVertex3f(1.0, -1.0, -1.0);
+  glVertex3f(1.0, 1.0, -1.0);
   glVertex3f(-1.0, 1.0, -1.0);
-  glVertex3f(-1.0, 1.0, 1.0);
   glEnd();
+
 }
 
 
 void FardinSceneWidget::spider(){
-  glPushMatrix();
-
-    materialStruct& material = obsidianMaterial;
-    // set spider material
-    glMaterialfv(GL_FRONT, GL_AMBIENT, material.ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, material.diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, material.specular);
-    glMaterialf(GL_FRONT, GL_SHININESS, material.shininess);
-
+    setMaterial(blackPlasticMaterial);
 
     // draw main body
     GLUquadric* quadric = gluNewQuadric();
-    gluSphere(quadric, 2, 20, 20);
+    glPushMatrix();
+      glScalef(0.8, 1, 0.5);
+      gluSphere(quadric, 2, 20, 20);
+    glPopMatrix();
+
+
+
+
+
     gluDeleteQuadric(quadric);
-  glPopMatrix();
+}
+
+// leg consisting of two cylinders and one sphere joint
+void FardinSceneWidget::spider_leg(){
+    GLUquadric* quadric = gluNewQuadric();
+    gluSphere(quadric, 0.2, 20, 20);
+
+    glPushMatrix();
+      glRotatef(90, 0, 1, 0);
+      glRotatef(30, 1, 0, 0);
+      gluCylinder(quadric, 0.2, 0.2, 2, 20, 20); //
+    glPopMatrix();
+
+    glPushMatrix();
+      glRotatef(-90, 0, 1, 0);
+      glRotatef(30, 1, 0, 0);
+      gluCylinder(quadric, 0.2, 0.2, 2, 20, 20); //
+    glPopMatrix();
+    gluDeleteQuadric(quadric);
+}
+
+void FardinSceneWidget::scene(){
+
 }
 
 // called every time the widget needs painting
 void FardinSceneWidget::paintGL()
-	{ // paintGL()
+{
 	// clear the widget
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// You must set the matrix mode to model view directly before enabling the depth test
-
+    glMatrixMode(GL_MODELVIEW);
 	glEnable(GL_DEPTH_TEST); // comment out depth test to observe the result                                                                                                    
 
 
+
     // put a light in the world
-	glPushMatrix();
+    glPushMatrix(); // why push
 	glLoadIdentity();
-        GLfloat light_pos[] = {0., 0., 10., 1.};
+        GLfloat light_pos[] = {0., 0, 10., 1.};
         glLightfv(GL_LIGHT0, GL_POSITION, light_pos); // set light position
-        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF,15.); // set light cutoff
-	glPopMatrix();
+        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF,30); // set light cutoff
+    glPopMatrix();
 
-    spider();
+    //this->spider();
+    this->pyramid();
 
-
-    //this->cube();
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-       	gluLookAt(1.,1.,1., 0.0,0.0,0.0, 0.0,1.0,0.0); //wait a sec, the up vector doesn't make any sense!!
-       
+    glLoadIdentity(); //insurance for if i stop caring about push/pop
+    //glPushMatrix();
+    glRotatef(cameraAngleHori, 0, 1, 0);
+    gluLookAt(0, 0, -4, 0.0,0.0,0.0, 0.0,1,0);
+    //glPopMatrix();
 	
-	// flush to screen
 	glFlush();	
 
-	} // paintGL()
+}

@@ -2,10 +2,8 @@
 
 // constructor / destructor
 FardinSceneWindow::FardinSceneWindow(QWidget *parent)
-	: QWidget(parent)
-	{ // constructor
+    : QWidget(parent) {
 
-    /*
     // create menu bar
     menuBar = new QMenuBar(this);
 
@@ -16,43 +14,32 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
 	
 	// add the item to the menu
 	fileMenu->addAction(actionQuit);
-    */
 
 	// create the window layout
-	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    windowLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 
-	// create main widget
+    // create main widget
     fardiWidget = new FardinSceneWidget(this);
     windowLayout->addWidget(fardiWidget);
 
-	// create slider
-	nVerticesSlider = new QSlider(Qt::Horizontal);
-	windowLayout->addWidget(nVerticesSlider);
-	} // constructor
+    toolbar = new QBoxLayout(QBoxLayout::TopToBottom);
+    windowLayout->addLayout(toolbar);
 
-FardinSceneWindow::~FardinSceneWindow()
-	{ // destructor
-	delete nVerticesSlider;
+    // create slider
+    cameraAngleHoriSlider = new QSlider(Qt::Horizontal);
+    toolbar->addWidget(cameraAngleHoriSlider);
+    connect(cameraAngleHoriSlider, SIGNAL(valueChanged(int)), fardiWidget, SLOT(SetCameraAngleHori(int)));
+}
+
+FardinSceneWindow::~FardinSceneWindow() {
+    delete cameraAngleHoriSlider;
     delete fardiWidget;
 	delete windowLayout;
-    /*
+    delete toolbar;
+
     delete actionQuit;
 	delete fileMenu;
 	delete menuBar;
-    */
-	} // destructor
 
-// resets all the interface elements
-void FardinSceneWindow::ResetInterface()
-	{ // ResetInterface()
-	nVerticesSlider->setMinimum(3);
-	nVerticesSlider->setMaximum(30);
+}
 
-	//don't use the slider for now
-
-    //nVerticesSlider->setValue(thePolygon->nVertices);
-	
-	// now force refresh
-    fardiWidget->update();
-	update();
-	} // ResetInterface()

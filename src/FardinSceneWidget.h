@@ -5,12 +5,17 @@
 
 
 class FardinSceneWidget: public QGLWidget
-	{ // 
-	public:
+    {
+    Q_OBJECT
+public:
     FardinSceneWidget(QWidget *parent);
+    ~FardinSceneWidget(){};
+    int getCameraAngleHori() { return cameraAngleHori; }
 
+public slots:
+    void SetCameraAngleHori(int angle);
 		
-	protected:
+protected:
 	// called when OpenGL context is set up
 	void initializeGL();
 	// called every time the widget is resized
@@ -18,12 +23,14 @@ class FardinSceneWidget: public QGLWidget
 	// called every time the widget needs painting
 	void paintGL();
 
-	private:
-
+private:
+    void scene();
+    void pyramid();
 	void cube();
     void spider();
-	void polygon(int, int, int, int);
+    void spider_leg();
 
-	}; // class GLPolygonWidget
+    int cameraAngleHori;
+    };
 	
 #endif

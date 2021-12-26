@@ -7,14 +7,10 @@ int main(int argc, char *argv[])
 	// create the application
 	QApplication app(argc, argv);
 
-	// create model (polygon) as a triangle
-	//	GLPolygon *polygon = new GLPolygon();
-
 	// create a master widget
-        FardinSceneWindow *window = new FardinSceneWindow(NULL);
+    FardinSceneWindow *window = new FardinSceneWindow(NULL);
 
-	// create a controller to hook things up
-	//	GLPolygonController *controller = new GLPolygonController(window, polygon);
+
 
 	// resize the window
     window->resize(720, 720);
