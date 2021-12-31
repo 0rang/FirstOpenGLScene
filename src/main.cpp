@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
 
 	// resize the window
-    window->resize(720, 720);
+    window->resize(1440, 720);
 
 	// show the label
 	window->show();

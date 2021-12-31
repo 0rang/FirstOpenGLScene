@@ -11,45 +11,21 @@ typedef struct materialStruct {
   GLfloat shininess;
 } materialStruct;
 
-void setMaterial(const materialStruct& mat){
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat.ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat.diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat.specular);
-    glMaterialf(GL_FRONT, GL_SHININESS, mat.shininess);
-}
+extern void setMaterial(const materialStruct& mat);
 
-materialStruct whiteShinyMaterial = {
-  { 1.0, 1.0, 1.0, 1.0},
-  { 1.0, 1.0, 1.0, 1.0},
-  { 1.0, 1.0, 1.0, 1.0},
-  100.0
-};
+extern materialStruct whiteShinyMaterial;
 
-#pragma region materials from http://devernay.free.fr/cours/opengl/materials.ht
+// materials from http://devernay.free.fr/cours/opengl/materials.ht
 
-materialStruct brassMaterial = {
-  { 0.33, 0.22, 0.03, 1.0},
-  { 0.78, 0.57, 0.11, 1.0},
-  { 0.99, 0.91, 0.81, 1.0},
-  27.8
-};
+extern materialStruct brassMaterial;
 
+extern materialStruct obsidianMaterial;
 
-materialStruct obsidianMaterial = {
-    {0.05375, 0.05, 0.06625, 1},
-    {0.18275, 0.17, 0.22525, 1},
-    {0.332741, 0.328634, 0.34643, 1},
-    0.3
-};
+extern materialStruct blackPlasticMaterial;
 
-materialStruct blackPlasticMaterial = {
-    {0.0, 0.0, 0.0, 1},
-    {0.01, 0.01, 0.01, 1},
-    {0.50, 0.50, 0.50, 1},
-        .25
-};
+//candidates for Spider Web
 
-#pragma endregion
-
+//bare colours
+extern materialStruct ambientRed;
 
 #endif // MATERIALS_H

@@ -2,56 +2,54 @@
 #include "materials.h"
 #include <GL/glu.h>
 #include <QGLWidget>
-#include "FardinSceneWidget.h"
-
-// constructor
-FardinSceneWidget::FardinSceneWidget(QWidget *parent)
-	: QGLWidget(parent)
-	{ // constructor
-       this->cameraAngleHori = 0;
-	} // constructor
+#include "SceneWidget.h"
+#include <QDebug>
+#include <cmath>
 
 // called when OpenGL context is set up
-void FardinSceneWidget::initializeGL()
-	{ // initializeGL()
+void SceneWidget::initializeGL() {
 	// set the widget background colour
     glClearColor(0.3, 0.3, 0.3, 0.0);
-	
 
- 
-	} // initializeGL()
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(90, 2, 0.2, 150);
+
+    //glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
+}
 
 
 // called every time the widget is resized
-void FardinSceneWidget::resizeGL(int w, int h)
+void SceneWidget::resizeGL(int w, int h)
 	{ // resizeGL()
-	// set the viewport to the entire widget
-	glViewport(0, 0, w, h);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-   
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	GLfloat light_pos[] = {0., 0., 10., 1.};	
-	glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
-        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF,15.);
-
-
-                                                                                                                                                               
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-    gluPerspective(90, 2, 0.2, 15);
-    //glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
-
+    // set the both width and height equal to the smallest dimension of the viewport
+    if (w < h) glViewport(0, 0, w, w);
+    else       glViewport(0, 0, h, h);
 	} // resizeGL()
 
-void FardinSceneWidget::SetCameraAngleHori(int angle){
+void SceneWidget::SetCameraAngleHori(int angle){
     this->cameraAngleHori = angle;
+    update();
 }
 
-void FardinSceneWidget::pyramid(){
-    // these should be correct
+void SceneWidget::SetCameraAngleVert(int angle){
+    this->cameraAngleVert = angle;
+    update();
+}
+
+void SceneWidget::SetCameraZoom(int distance){
+    this->cameraZoom = distance;
+    update();
+}
+
+void SceneWidget::pyramid(){
+    // these are (hopefully) correctly calculated normals for the pyramid
     GLfloat normals[5][3] = {{0, -1, 0}, {0, 2, 1}, {-1, 2, 0}, {0, 2, -1}, {1, 2, 0}};
 
     // base
@@ -94,7 +92,7 @@ void FardinSceneWidget::pyramid(){
 
 }
 
-void FardinSceneWidget::cube(){
+void SceneWidget::cube(){
 
   // Here are the normals, correctly calculated for the cube faces below  
   GLfloat normals[][3] = { {1., 0. ,0.}, {-1., 0., 0.}, {0., 0., 1.}, {0., 0., -1.} };
@@ -140,74 +138,57 @@ void FardinSceneWidget::cube(){
 }
 
 
-void FardinSceneWidget::spider(){
-    setMaterial(blackPlasticMaterial);
-
-    // draw main body
-    GLUquadric* quadric = gluNewQuadric();
-    glPushMatrix();
-      glScalef(0.8, 1, 0.5);
-      gluSphere(quadric, 2, 20, 20);
-    glPopMatrix();
-
-
-
-
-
-    gluDeleteQuadric(quadric);
-}
-
-// leg consisting of two cylinders and one sphere joint
-void FardinSceneWidget::spider_leg(){
-    GLUquadric* quadric = gluNewQuadric();
-    gluSphere(quadric, 0.2, 20, 20);
-
-    glPushMatrix();
-      glRotatef(90, 0, 1, 0);
-      glRotatef(30, 1, 0, 0);
-      gluCylinder(quadric, 0.2, 0.2, 2, 20, 20); //
-    glPopMatrix();
-
-    glPushMatrix();
-      glRotatef(-90, 0, 1, 0);
-      glRotatef(30, 1, 0, 0);
-      gluCylinder(quadric, 0.2, 0.2, 2, 20, 20); //
-    glPopMatrix();
-    gluDeleteQuadric(quadric);
-}
-
-void FardinSceneWidget::scene(){
-
+void SceneWidget::scene_objects(){
+    this->spider();
 }
 
 // called every time the widget needs painting
-void FardinSceneWidget::paintGL()
+void SceneWidget::paintGL()
 {
 	// clear the widget
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// You must set the matrix mode to model view directly before enabling the depth test
     glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_DEPTH_TEST); // comment out depth test to observe the result                                                                                                    
-
-
+    glEnable(GL_DEPTH_TEST); // comment out depth test to observe the result
+    glEnable(GL_NORMALIZE);
 
     // put a light in the world
-    glPushMatrix(); // why push
+    glPushMatrix();
 	glLoadIdentity();
-        GLfloat light_pos[] = {0., 0, 10., 1.};
+        GLfloat light_pos[] = {0, 10, -10, 1.};
+        GLfloat light_dir_towards_origin[] = {0-light_pos[0], 0-light_pos[1], 0-light_pos[2]}; // make the light point to the origin
+        GLfloat light_dir_custom[] = {0, -1, 1};
         glLightfv(GL_LIGHT0, GL_POSITION, light_pos); // set light position
-        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF,30); // set light cutoff
+        glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_dir_custom); //set light direction
+        glLighti (GL_LIGHT0, GL_SPOT_EXPONENT, 10);
+        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 90); // set light cutoff
     glPopMatrix();
 
-    //this->spider();
-    this->pyramid();
+    //this->scene_objects();
+    //this->test_things();
+
+    this->spider_web();
 
     glLoadIdentity(); //insurance for if i stop caring about push/pop
-    //glPushMatrix();
-    glRotatef(cameraAngleHori, 0, 1, 0);
-    gluLookAt(0, 0, -4, 0.0,0.0,0.0, 0.0,1,0);
-    //glPopMatrix();
+    // camera position and rotation controlled by user sliders
+
+    gluLookAt(0, 0, -cameraZoom, 0.0,0,0.0, 0.0,1,0);
+    //TODO: make horizontal rotation happen around the vertical translation with some trig
+
+    // camera movement, not ideal but it works fine for debugging
+    glRotatef(-this->cameraAngleVert, 1, 0, 0);
+    glRotatef(-this->cameraAngleHori, 0, 1, 0);
+
+    /* trying to be smart with camera but it's not working :(
+    glTranslatef(0, sinf(cameraAngleVert)*cameraZoom, 0);
+    glRotatef(-this->cameraAngleHori, 0, 1, 0);
+    glTranslatef(0, 0, -cosf(cameraAngleVert)*cameraZoom);
+    */
+
+
+    //glTranslatef()
+
 	
 	glFlush();	
 

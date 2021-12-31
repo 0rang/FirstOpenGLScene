@@ -5,34 +5,30 @@
 #include <QMenuBar>
 #include <QSlider>
 #include <QBoxLayout>
-#include "FardinSceneWidget.h"
+#include "SceneWidget.h"
 
 class FardinSceneWindow: public QWidget
 	{ 
 	public:
-       
-	
-	// constructor / destructor
     FardinSceneWindow(QWidget *parent);
     ~FardinSceneWindow();
 
-	// visual hierarchy
-	// menu bar
-	QMenuBar *menuBar;
-		// file menu
-		QMenu *fileMenu;
-			// quit action
-			QAction *actionQuit;
+    // Signals to connect to Scene logic
+    QSlider* cameraZoomSlider;
+    QSlider* cameraAngleHoriSlider;
+    QSlider* cameraAngleVertSlider;
 
-	// window layout
-	QBoxLayout *windowLayout;
+private:
+    void resetInterface();
 
-    QBoxLayout* toolbar;
+    // Top level layout
+    QBoxLayout* windowLayout;
 
-	// beneath that, the main widget
-    FardinSceneWidget *fardiWidget;
-	// and a slider for the number of vertices
-	QSlider *cameraAngleHoriSlider;
+    // OpenGL Scene on the left hand side
+    SceneWidget* sceneWidget;
+
+    // Interactive UI elements on the right hand side
+    QGridLayout* toolbar;
 
 	}; 
 	

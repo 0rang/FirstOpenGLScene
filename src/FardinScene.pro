@@ -8,17 +8,21 @@ INCLUDEPATH += . /opt/local/include
 
 QT += widgets opengl gui 
 
-LIBS += -lGLU
+LIBS += -lopengl32 -lglu32
 # windows: -lopengl32 -lglu32
 # linux: -lGLU
 
 
 # Input
 HEADERS +=  \
-    FardinSceneWidget.h \
     FardinSceneWindow.h \
+    SceneWidget.h \
     materials.h
 SOURCES += \
-           FardinSceneMain.cpp \
-           FardinSceneWidget.cpp \
-           FardinSceneWindow.cpp
+           FardinSceneWindow.cpp \
+           SceneWidget.cpp \
+           TestSceneWidget.cpp \
+           main.cpp \
+           materials.cpp \
+           objects/DrawSpider.cpp \
+           objects/DrawSpiderWeb.cpp
