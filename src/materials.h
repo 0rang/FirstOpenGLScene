@@ -23,7 +23,11 @@ extern materialStruct obsidianMaterial;
 
 extern materialStruct blackPlasticMaterial;
 
-//candidates for Spider Web
+//Spider Web?
+
+//Spider Legs?
+
+extern materialStruct silverMaterial;
 
 //bare colours
 extern materialStruct ambientRed;

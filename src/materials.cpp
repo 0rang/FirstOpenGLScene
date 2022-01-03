@@ -46,7 +46,15 @@ materialStruct ambientRed = {
     0
 };
 
-//candidates for Spider Web
+
+materialStruct silverMaterial = {
+    {0.19225,	0.19225,	0.19225},
+    {0.50754,	0.50754,	0.50754},
+    {0.508273,	0.508273,	0.508273},
+    0.4
+};
+
+
 
 
 #pragma endregion

@@ -45,7 +45,9 @@ private:
     // modularised code for rendering the spider
     void spider(); //calls all the other spider components
     void earth_textured_sphere(); // squashed sphere using earth texture
-    void spider_leg(); // simple leg with one joint
+    void spider_leg(float base_length=2, float base_angle=30, float tip_length=2, float tip_angle=30); // simple leg with one joint
+    void spider_circular_motion();
+    void spider_animation();
 
     // render the spider's web
     void spider_web();
