@@ -54,6 +54,13 @@ materialStruct silverMaterial = {
     0.4
 };
 
+materialStruct whiteRubberMaterial = {
+    {0.05,	0.05,	0.05},
+    {0.5,	0.5,	0.5	},
+    {0.7,	0.7,	0.7	},
+    .078125
+};
+
 
 
 

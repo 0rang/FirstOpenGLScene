@@ -15,7 +15,7 @@ extern void setMaterial(const materialStruct& mat);
 
 extern materialStruct whiteShinyMaterial;
 
-// materials from http://devernay.free.fr/cours/opengl/materials.ht
+// materials from http://devernay.free.fr/cours/opengl/materials.html
 
 extern materialStruct brassMaterial;
 
@@ -25,11 +25,12 @@ extern materialStruct blackPlasticMaterial;
 
 //Spider Web?
 
+extern materialStruct whiteRubberMaterial;
+
 //Spider Legs?
 
 extern materialStruct silverMaterial;
 
-//bare colours
-extern materialStruct ambientRed;
+// Spider Eyes?
 
 #endif // MATERIALS_H
