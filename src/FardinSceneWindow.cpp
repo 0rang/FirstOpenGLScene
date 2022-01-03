@@ -58,7 +58,7 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
     toolbar->addWidget(new QLabel("Zoom"), row, 0);
     toolbar->addWidget(cameraZoomSlider, row, 1);
     connect(cameraZoomSlider, SIGNAL(valueChanged(int)), sceneWidget, SLOT(SetCameraZoom(int)));
-    cameraZoomSlider->setValue(7);
+    cameraZoomSlider->setValue(3);
 
 }
 

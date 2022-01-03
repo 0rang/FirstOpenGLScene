@@ -5,11 +5,23 @@
 void SceneWidget::spider(){
     setMaterial(blackPlasticMaterial);
 
-    // draw main body
+    // draw the butt
     glPushMatrix();
-      glScalef(0.8, 1, 0.5);
+      glTranslatef(0, 0.2, 1);
+      glRotatef(80, 1, 0, 0);
+      glScalef(0.35, 0.5, 0.4);
       gluSphere(quadric, 2, 20, 20);
     glPopMatrix();
+
+
+    //draw main body
+    glPushMatrix();
+      glScalef(0.6, 0.6, 0.8);
+      gluSphere(quadric, 1, 20, 20);
+    glPopMatrix();
+
+
+    // draw legs
 
 }
 

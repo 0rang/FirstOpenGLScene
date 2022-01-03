@@ -46,6 +46,7 @@ void SceneWidget::octagon_from_cylinders(GLfloat radius_scale_compensation){
           glRotatef(angle, 0, 1, 0);
 
           glTranslatef(0, 0, 1);
+          // MAYBE: De-hardcode this angle, here's my last attempt 180.-((180.-(((float)1 / (float)num_strands) * (float)360))/2.)
           glRotatef(112.5, 0, 1, 0);
           glScalef(1, 1, scale_factor);
           gluCylinder(quadric, strand_thickness / radius_scale_compensation, strand_thickness/radius_scale_compensation, 1, 20, 20);

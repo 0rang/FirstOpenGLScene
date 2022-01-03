@@ -19,7 +19,7 @@ void SceneWidget::initializeGL() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90, 2, 0.2, 150);
+    gluPerspective(90, 1, 0.2, 150);
 
     //glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
 }
@@ -168,15 +168,18 @@ void SceneWidget::paintGL()
     //this->scene_objects();
     //this->test_things();
 
-    this->spider_web();
+    glPushMatrix();
+      glTranslatef(0, -1, 0);
+      this->spider_web();
+    glPopMatrix();
+    this->spider();
 
     glLoadIdentity(); //insurance for if i stop caring about push/pop
     // camera position and rotation controlled by user sliders
 
     gluLookAt(0, 0, -cameraZoom, 0.0,0,0.0, 0.0,1,0);
-    //TODO: make horizontal rotation happen around the vertical translation with some trig
 
-    // camera movement, not ideal but it works fine for debugging
+    // user controlled camera rotation
     glRotatef(-this->cameraAngleVert, 1, 0, 0);
     glRotatef(-this->cameraAngleHori, 0, 1, 0);
 
@@ -186,10 +189,7 @@ void SceneWidget::paintGL()
     glTranslatef(0, 0, -cosf(cameraAngleVert)*cameraZoom);
     */
 
-
-    //glTranslatef()
-
-	
+    if (glGetError()) { qDebug() << "GL Error : " << glGetError(); }
 	glFlush();	
 
 }
