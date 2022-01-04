@@ -16,6 +16,7 @@ void SceneWidget::initializeGL() {
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -56,38 +57,38 @@ void SceneWidget::pyramid(){
     glNormal3fv(normals[0]);
     glBegin(GL_POLYGON);
     glVertex3f(1, 0, 1);
-    glVertex3f(-1, 0, 1);
-    glVertex3f(-1, 0, -1);
     glVertex3f(1, 0, -1);
+    glVertex3f(-1, 0, -1);
+    glVertex3f(-1, 0, 1);
     glEnd();
 
     // triangle walls
     glNormal3fv(normals[1]);
     glBegin(GL_POLYGON);
     glVertex3f(0, 2, 0);
-    glVertex3f(1, 0, 1);
     glVertex3f(-1, 0, 1);
+    glVertex3f(1, 0, 1);
     glEnd();
 
     glNormal3fv(normals[2]);
     glBegin(GL_POLYGON);
     glVertex3f(0, 2, 0);
-    glVertex3f(-1, 0, 1);
     glVertex3f(-1, 0, -1);
+    glVertex3f(-1, 0, 1);
     glEnd();
 
     glNormal3fv(normals[3]);
     glBegin(GL_POLYGON);
     glVertex3f(0, 2, 0);
-    glVertex3f(-1, 0, -1);
     glVertex3f(1, 0, -1);
+    glVertex3f(-1, 0, -1);
     glEnd();
 
     glNormal3fv(normals[4]);
     glBegin(GL_POLYGON);
     glVertex3f(0, 2, 0);
-    glVertex3f(1, 0, -1);
     glVertex3f(1, 0, 1);
+    glVertex3f(1, 0, -1);
     glEnd();
 
 }
@@ -102,6 +103,8 @@ void SceneWidget::cube(){
 
   // Here we have permuted the first normal array
   //GLfloat normals[][3] = {{-1., 0., 0.}, {0., 0., 1.}, {0., 0., 1.}, {0., 0., -1.}};
+
+  //GLfloat normals[][3]
 
   glNormal3fv(normals[0]);
   glBegin(GL_POLYGON);
@@ -156,20 +159,27 @@ void SceneWidget::paintGL()
     // put a light in the world
     glPushMatrix();
 	glLoadIdentity();
-        GLfloat light_pos[] = {0, 10, -10, 1.};
-        GLfloat light_dir_towards_origin[] = {0-light_pos[0], 0-light_pos[1], 0-light_pos[2]}; // make the light point to the origin
-        GLfloat light_dir_custom[] = {0, -1, 1};
+    {
+        GLfloat light_pos[4] = {20, 0, 1, 1.};
+        GLfloat light_dir_towards_origin[3] = {0-light_pos[0], 0-light_pos[1], 0-light_pos[2]}; // make the light point to the origin
+        GLfloat point_of_focus[4] = {10, 0 , 0, 1};
+        GLfloat light_dir_towards_point[3] = {point_of_focus[0]-light_pos[0], point_of_focus[1]-light_pos[1], point_of_focus[2]-light_pos[2]};
+        GLfloat light_dir_custom[3] = {0, -1, 1};
         glLightfv(GL_LIGHT0, GL_POSITION, light_pos); // set light position
-        glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_dir_custom); //set light direction
-        glLighti (GL_LIGHT0, GL_SPOT_EXPONENT, 10);
-        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 90); // set light cutoff
+        glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_dir_towards_origin); //set light direction
+        glLighti (GL_LIGHT0, GL_SPOT_EXPONENT, 120);
+        glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 180); // set light cutoff
+
+        //draw a cube
+        //glPushMatrix()
+    }
     glPopMatrix();
 
     //this->scene_objects();
     //this->test_things();
 
     glPushMatrix();
-      glTranslatef(0, -1, 0);
+      glTranslatef(0, -0.7, 0);
       this->spider_web();
     glPopMatrix();
     this->spider();

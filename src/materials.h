@@ -13,15 +13,15 @@ typedef struct materialStruct {
 
 extern void setMaterial(const materialStruct& mat);
 
-extern materialStruct whiteShinyMaterial;
+extern materialStruct spiderWebMaterial;
 
 // materials from http://devernay.free.fr/cours/opengl/materials.html
 
 extern materialStruct brassMaterial;
 
-extern materialStruct obsidianMaterial;
+extern materialStruct obsidianishMaterial;
 
-extern materialStruct blackPlasticMaterial;
+extern materialStruct spiderBodyMaterial;
 
 //Spider Web?
 
@@ -29,8 +29,12 @@ extern materialStruct whiteRubberMaterial;
 
 //Spider Legs?
 
-extern materialStruct silverMaterial;
+extern materialStruct spiderLegsMaterial;
 
 // Spider Eyes?
+
+extern materialStruct rubyMaterial;
+
+
 
 #endif // MATERIALS_H

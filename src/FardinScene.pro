@@ -8,7 +8,8 @@ INCLUDEPATH += . /opt/local/include
 
 QT += widgets opengl gui 
 
-LIBS += -lopengl32 -lglu32
+windows: { LIBS += -lOpenGL32 -lGLU32 }
+!windows: { LIBS += -lGLU }
 # windows: -lopengl32 -lglu32
 # linux: -lGLU
 

@@ -7,9 +7,9 @@ void setMaterial(const materialStruct& mat){
     glMaterialf(GL_FRONT, GL_SHININESS, mat.shininess);
 }
 
-materialStruct whiteShinyMaterial = {
-  { 1.0, 1.0, 1.0, 1.0},
-  { 1.0, 1.0, 1.0, 1.0},
+materialStruct spiderWebMaterial = {
+  { 0.4, 0.4, 0.4, 1},
+  { 1.0, 0.9, 0.85, 1.0},
   { 1.0, 1.0, 1.0, 1.0},
   100.0
 };
@@ -27,15 +27,15 @@ materialStruct brassMaterial = {
 materialStruct obsidianMaterial = {
     {0.05375, 0.05, 0.06625, 1},
     {0.18275, 0.17, 0.22525, 1},
-    {0.332741, 0.328634, 0.34643, 1},
+    {0.332741, 3286340., 0.34643, 1}, //{0.332741, 0.328634, 0.34643, 1}
     0.3
 };
 
-materialStruct blackPlasticMaterial = {
+materialStruct spiderBodyMaterial = {
     {0.0, 0.0, 0.0, 1},
-    {0.01, 0.01, 0.01, 1},
-    {0.50, 0.50, 0.50, 1},
-        .25
+    {0.50, 0.25, 0.1, 1},
+    {0.7, 0.7, 0.7, 1}, // {0.50, 0.50, 0.50, 1}
+    100
 };
 
 //ambient only colours
@@ -47,11 +47,11 @@ materialStruct ambientRed = {
 };
 
 
-materialStruct silverMaterial = {
-    {0.19225,	0.19225,	0.19225},
-    {0.50754,	0.50754,	0.50754},
-    {0.508273,	0.508273,	0.508273},
-    0.4
+materialStruct spiderLegsMaterial = {
+    {0,	0,	0, 1},
+    {0.50754,	0.25,	0.1, 1},
+    {0.508273,	0.508273,	0.508273, 1},
+    0.1
 };
 
 materialStruct whiteRubberMaterial = {
@@ -61,7 +61,12 @@ materialStruct whiteRubberMaterial = {
     .078125
 };
 
-
+materialStruct rubyMaterial = {
+    {0.1745,	0.01175,	0.01175}, //0.1745
+    {0.61424,	0.04136,	0.04136},
+    {1,	0.626959,	0.626959}, //{0.727811,	0.626959,	0.626959}
+    0
+};
 
 
 #pragma endregion

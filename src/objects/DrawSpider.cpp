@@ -3,7 +3,7 @@
 #include <GL/glu.h>
 
 void SceneWidget::spider(){
-    setMaterial(blackPlasticMaterial);
+    setMaterial(spiderBodyMaterial);
 
     // draw the butt
     glPushMatrix();
@@ -22,16 +22,24 @@ void SceneWidget::spider(){
 
 
     // eyes
-//    setMaterial(redPl)
-//    glPushMatrix();
-//      glTranslatef(1, 0, 0);
-//      glRotatef(180, );
-//    glPopMatrix();
+    setMaterial(rubyMaterial);
+    glPushMatrix();
+      glTranslatef(0.3, 0.7, -0.5);
+      glRotatef(160, 1, 0, 0);
+      glScalef(0.2, 0.2, 0.2);
+      this->pyramid();
+    glPopMatrix();
+    glPushMatrix();
+      glTranslatef(-0.3, 0.7, -0.5);
+      glRotatef(160, 1, 0, 0);
+      glScalef(0.2, 0.2, 0.2);
+      this->pyramid();
+    glPopMatrix();
 
 
     //draw legs
     {
-        setMaterial(silverMaterial);
+        setMaterial(spiderLegsMaterial);
         // front legs
         glPushMatrix();
         glTranslatef(0.5, 0.2 ,-.9);

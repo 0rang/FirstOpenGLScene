@@ -9,7 +9,7 @@ static GLuint num_strands = 8;
 static GLfloat web_radius = 10;
 
 void SceneWidget::spider_web(){
-    setMaterial(whiteShinyMaterial);
+    setMaterial(spiderWebMaterial);
 
     gluSphere(quadric, strand_thickness, 20, 20);
 
@@ -36,7 +36,7 @@ void SceneWidget::spider_web(){
 // length of octagon edges calulated by multiplying unit cylinders by this constant (based on cosine rule)
 static GLfloat scale_factor = sqrt(2 - 2*cosf((1./num_strands) * 360.));
 void SceneWidget::octagon_from_cylinders(GLfloat radius_scale_compensation){
-    setMaterial(whiteShinyMaterial);
+    setMaterial(spiderWebMaterial);
 
     GLfloat scale_factor = sqrt(2. - sqrt(2.));
     for (GLuint i = 0; i < num_strands; i++) {
