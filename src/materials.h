@@ -13,6 +13,8 @@ typedef struct materialStruct {
 
 extern void setMaterial(const materialStruct& mat);
 
+extern materialStruct whiteShinyMaterial;
+
 extern materialStruct spiderWebMaterial;
 
 // materials from http://devernay.free.fr/cours/opengl/materials.html

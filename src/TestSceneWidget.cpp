@@ -10,9 +10,14 @@ void SceneWidget::test_pyramid(){
     glPopMatrix();
 }
 
-void SceneWidget::test_things(){
-    spider_web();
+void SceneWidget::test_earth_textured_sphere(){
+
 }
+
+void SceneWidget::test_textured_cube(){
+
+}
+
 
 // RGB for positive d
 void SceneWidget::highlight_axes(){

@@ -16,7 +16,7 @@ void SceneWidget::initializeGL() {
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT1); // MAYBE: actually set a 2nd light
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -24,7 +24,6 @@ void SceneWidget::initializeGL() {
 
     //glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
 }
-
 
 // called every time the widget is resized
 void SceneWidget::resizeGL(int w, int h)
@@ -36,18 +35,28 @@ void SceneWidget::resizeGL(int w, int h)
 
 void SceneWidget::SetCameraAngleHori(int angle){
     this->cameraAngleHori = angle;
-    update();
+    this->updateGL();
 }
 
 void SceneWidget::SetCameraAngleVert(int angle){
     this->cameraAngleVert = angle;
-    update();
+    this->updateGL();
 }
 
 void SceneWidget::SetCameraZoom(int distance){
     this->cameraZoom = distance;
-    update();
+    this->updateGL();
 }
+
+void SceneWidget::IncrementCircMotionAngle(){
+    int move_speed = 1;
+    this->spiderCircularPos += move_speed;
+    this->spiderCircularPos %= 360;
+
+    //TODO: same for fly0 and fly1
+    updateGL();
+}
+
 
 void SceneWidget::pyramid(){
     // these are (hopefully) correctly calculated normals for the pyramid
@@ -140,9 +149,32 @@ void SceneWidget::cube(){
 
 }
 
+void SceneWidget::textured_cube(){
+
+}
+
+//just a function to place other test functions in, so that the main loop is clean
+void SceneWidget::test_things(){
+    glPushMatrix();
+      glTranslatef(0, -0.7, 0);
+      this->spider_web();
+    glPopMatrix();
+
+    glPushMatrix();
+      glTranslatef(0, 1, 0);
+      this->cube();
+      glTranslatef(0, 1, 0);
+      this->textured_cube();
+    glPopMatrix();
+}
+
 
 void SceneWidget::scene_objects(){
-    this->spider();
+    glPushMatrix();
+      glTranslatef(0, -0.7, 0);
+      this->spider_web();
+    glPopMatrix();
+    this->spider_circular_motion();
 }
 
 // called every time the widget needs painting
@@ -154,50 +186,62 @@ void SceneWidget::paintGL()
 	// You must set the matrix mode to model view directly before enabling the depth test
     glMatrixMode(GL_MODELVIEW);
     glEnable(GL_DEPTH_TEST); // comment out depth test to observe the result
-    glEnable(GL_NORMALIZE);
+
+
+    // do transformation and drawing stuff
+    {
+
+        // if you would like to test things in isolation,
+        // uncomment scene_objects and either write some code here or in this->test_things()
+
+        this->scene_objects();
+
+
+    }
+
+
+
+    GLfloat light_pos[4] = {5, 5, -5, 1.};
+    GLfloat light_dir_towards_origin[3] = {0-light_pos[0], 0-light_pos[1], 0-light_pos[2]}; // make the light point to the origin
+    GLfloat point_of_focus[4] = {10, 0 , 0, 1};
+    GLfloat light_dir_towards_point[3] = {point_of_focus[0]-light_pos[0], point_of_focus[1]-light_pos[1], point_of_focus[2]-light_pos[2]};
+    GLfloat light_dir_custom[3] = {0, -1, 1};
+
+    glPushMatrix();
+      glTranslatef(light_pos[0], light_pos[1], light_pos[2]);
+      glScalef(0.1, 0.1, 0.1);
+      setMaterial(whiteShinyMaterial);
+      this->cube();
+    glPopMatrix();
+
 
     // put a light in the world
     glPushMatrix();
-	glLoadIdentity();
     {
-        GLfloat light_pos[4] = {20, 0, 1, 1.};
-        GLfloat light_dir_towards_origin[3] = {0-light_pos[0], 0-light_pos[1], 0-light_pos[2]}; // make the light point to the origin
-        GLfloat point_of_focus[4] = {10, 0 , 0, 1};
-        GLfloat light_dir_towards_point[3] = {point_of_focus[0]-light_pos[0], point_of_focus[1]-light_pos[1], point_of_focus[2]-light_pos[2]};
-        GLfloat light_dir_custom[3] = {0, -1, 1};
+
+        glEnable(GL_NORMALIZE); // all transformations done. Do some lighting!
+
         glLightfv(GL_LIGHT0, GL_POSITION, light_pos); // set light position
         glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_dir_towards_origin); //set light direction
         glLighti (GL_LIGHT0, GL_SPOT_EXPONENT, 120);
         glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 180); // set light cutoff
 
-        //draw a cube
-        //glPushMatrix()
+        // draw a cube where the light is
+        glPushMatrix();
+          glTranslatef(light_pos[0], light_pos[1], light_pos[2]);
+          glScalef(0.1, 0.1, 0.1);
+          this->cube();
+        glPopMatrix();
     }
     glPopMatrix();
 
-    //this->scene_objects();
-    //this->test_things();
+    glLoadIdentity(); // seems to bring things to screen space or something. Not really sure
 
-    glPushMatrix();
-      glTranslatef(0, -0.7, 0);
-      this->spider_web();
-    glPopMatrix();
-    this->spider();
-
-    glLoadIdentity(); //insurance for if i stop caring about push/pop
-    // camera position and rotation controlled by user sliders
-
-    gluLookAt(0, 0, -cameraZoom, 0.0,0,0.0, 0.0,1,0);
-
+    // camera zoom controlled by user slider
+    gluLookAt(0, 0, -this->cameraZoom, 0.0,0,0.0, 0.0,1,0);
     // user controlled camera rotation
     glRotatef(-this->cameraAngleVert, 1, 0, 0);
     glRotatef(-this->cameraAngleHori, 0, 1, 0);
-
-    /* trying to be smart with camera but it's not working :(
-    glTranslatef(0, sinf(cameraAngleVert)*cameraZoom, 0);
-    glRotatef(-this->cameraAngleHori, 0, 1, 0);
-    glTranslatef(0, 0, -cosf(cameraAngleVert)*cameraZoom);
-    */
 
     if (glGetError()) { qDebug() << "GL Error : " << glGetError(); }
 	glFlush();	

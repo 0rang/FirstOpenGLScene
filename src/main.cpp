@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QVBoxLayout>
-#include "FardinSceneWindow.h"
+#include "SceneWindow.h"
 
 int main(int argc, char *argv[])
 	{ // main()
@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	// create a master widget
-    FardinSceneWindow *window = new FardinSceneWindow(NULL);
+    SceneWindow *window = new SceneWindow(NULL);
 
 
 

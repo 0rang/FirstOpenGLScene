@@ -7,16 +7,23 @@
 #include <QBoxLayout>
 #include "SceneWidget.h"
 
-class FardinSceneWindow: public QWidget
-	{ 
-	public:
-    FardinSceneWindow(QWidget *parent);
-    ~FardinSceneWindow();
+class SceneWindow: public QWidget{ 
+public:
+    SceneWindow(QWidget *parent);
+    ~SceneWindow() {
+        delete cameraAngleHoriSlider;
+        delete sceneWidget;
+        delete windowLayout;
+        delete toolbar;
+        delete qTimer;
+    }
 
     // Signals to connect to Scene logic
     QSlider* cameraZoomSlider;
     QSlider* cameraAngleHoriSlider;
     QSlider* cameraAngleVertSlider;
+
+    QTimer* qTimer; // set base tick rate for animation
 
 private:
     void resetInterface();
@@ -29,7 +36,6 @@ private:
 
     // Interactive UI elements on the right hand side
     QGridLayout* toolbar;
-
-	}; 
+};
 	
 #endif

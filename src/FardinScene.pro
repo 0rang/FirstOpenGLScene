@@ -10,19 +10,18 @@ QT += widgets opengl gui
 
 windows: { LIBS += -lOpenGL32 -lGLU32 }
 !windows: { LIBS += -lGLU }
-# windows: -lopengl32 -lglu32
-# linux: -lGLU
-
 
 # Input
 HEADERS +=  \
-    FardinSceneWindow.h \
     SceneWidget.h \
+    SceneWindow.h \
+    image.h \
     materials.h
 SOURCES += \
-           FardinSceneWindow.cpp \
            SceneWidget.cpp \
+           SceneWindow.cpp \
            TestSceneWidget.cpp \
+           image.cpp \
            main.cpp \
            materials.cpp \
            objects/DrawSpider.cpp \

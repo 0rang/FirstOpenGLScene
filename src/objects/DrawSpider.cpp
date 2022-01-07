@@ -21,7 +21,7 @@ void SceneWidget::spider(){
     glPopMatrix();
 
 
-    // eyes
+    // draw eyes
     setMaterial(rubyMaterial);
     glPushMatrix();
       glTranslatef(0.3, 0.7, -0.5);
@@ -37,7 +37,7 @@ void SceneWidget::spider(){
     glPopMatrix();
 
 
-    //draw legs
+    // draw legs
     {
         setMaterial(spiderLegsMaterial);
         // front legs
@@ -99,23 +99,21 @@ void SceneWidget::spider(){
     }
 
 
-//    glPushMatrix();
-//      glTranslatef();
-
-
 }
 
 // leg consisting of two cylinders and one sphere joint
 void SceneWidget::spider_leg(float base_length, float base_angle, float tip_length, float tip_angle){
-
+    // "knee"
     gluSphere(quadric, 0.2, 20, 20);
 
+    // "thigh"
     glPushMatrix();
       glRotatef(90, 0, 1, 0);
       glRotatef(base_angle, 1, 0, 0);
       gluCylinder(quadric, 0.2, 0.2, base_length, 20, 20);
     glPopMatrix();
 
+    // "calf"
     glPushMatrix();
       glRotatef(-90, 0, 1, 0);
       glRotatef(tip_angle, 1, 0, 0);
@@ -124,6 +122,15 @@ void SceneWidget::spider_leg(float base_length, float base_angle, float tip_leng
 }
 
 //slap an earth onto a sphere
-void earth_textured_sphere(){
+void SceneWidget::earth_textured_sphere(){
 
+}
+
+void SceneWidget::spider_circular_motion(){
+    glPushMatrix();
+      glRotatef(this->spiderCircularPos, 0, 1, 0);
+      glTranslatef(0, 0, 5);
+      glRotatef(-90, 0, 1, 0);
+      this->spider();
+    glPopMatrix();
 }

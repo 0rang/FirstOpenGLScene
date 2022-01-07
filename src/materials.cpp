@@ -7,6 +7,13 @@ void setMaterial(const materialStruct& mat){
     glMaterialf(GL_FRONT, GL_SHININESS, mat.shininess);
 }
 
+materialStruct whiteShinyMaterial = {
+  { 1.0, 1.0, 1.0, 1.0},
+  { 1.0, 1.0, 1.0, 1.0},
+  { 1.0, 1.0, 1.0, 1.0},
+  100.0
+};
+
 materialStruct spiderWebMaterial = {
   { 0.4, 0.4, 0.4, 1},
   { 1.0, 0.9, 0.85, 1.0},
@@ -34,7 +41,7 @@ materialStruct obsidianMaterial = {
 materialStruct spiderBodyMaterial = {
     {0.0, 0.0, 0.0, 1},
     {0.50, 0.25, 0.1, 1},
-    {0.7, 0.7, 0.7, 1}, // {0.50, 0.50, 0.50, 1}
+    {1, 1, 1, 1},
     100
 };
 
@@ -45,7 +52,6 @@ materialStruct ambientRed = {
     {0, 0, 0, 0},
     0
 };
-
 
 materialStruct spiderLegsMaterial = {
     {0,	0,	0, 1},

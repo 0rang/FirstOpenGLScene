@@ -1,10 +1,10 @@
-#include "FardinSceneWindow.h"
+#include "SceneWindow.h"
 #include <QDebug>
 #include <QSizePolicy>
 #include <QLabel>
 
 // constructor / destructor
-FardinSceneWindow::FardinSceneWindow(QWidget *parent)
+SceneWindow::SceneWindow(QWidget *parent)
     : QWidget(parent) {
 
 	// create the window layout
@@ -16,18 +16,22 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
     sceneWidget->setMinimumSize(300, 300);
     sceneWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    //toolbarWidget = new QWidget(this);
-
     toolbar = new QGridLayout(this);
 
     windowLayout->addWidget(sceneWidget);
     windowLayout->addLayout(toolbar);
 
+    // Start timer
+    qTimer = new QTimer();
+    qTimer->start(30); // set animation tick period (msec)
+    connect(qTimer, SIGNAL(timeout()), sceneWidget, SLOT(IncrementCircMotionAngle()));
+
     //
     // Configure, label and connect the interactive UI elements
     //
 
-    // this makes it easier to insert a new row and guarantees that UI is in the same order as the code
+    // this incremented row count makes it easier to insert a new row
+    // and guarantees that UI is in the same order as the code
     int row = 0;
 
     // horizontal camera angle
@@ -52,7 +56,7 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
 
     // camera zoom
     cameraZoomSlider = new QSlider(Qt::Horizontal);
-    cameraZoomSlider->setMinimum(1);
+    cameraZoomSlider->setMinimum(2);
     cameraZoomSlider->setMaximum(10);
     row++;
     toolbar->addWidget(new QLabel("Zoom"), row, 0);
@@ -60,12 +64,5 @@ FardinSceneWindow::FardinSceneWindow(QWidget *parent)
     connect(cameraZoomSlider, SIGNAL(valueChanged(int)), sceneWidget, SLOT(SetCameraZoom(int)));
     cameraZoomSlider->setValue(3);
 
-}
-
-FardinSceneWindow::~FardinSceneWindow() {
-    delete cameraAngleHoriSlider;
-    delete sceneWidget;
-	delete windowLayout;
-    delete toolbar;
 }
 
