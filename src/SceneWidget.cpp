@@ -11,12 +11,24 @@ void SceneWidget::initializeGL() {
 	// set the widget background colour
     glClearColor(0.3, 0.3, 0.3, 0.0);
 
+
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1); // MAYBE: actually set a 2nd light
+
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+    glGenTextures(3, textureIDs);
+
+    *marcQimg = QGLWidget::convertToGLFormat(*marcQimg);
+
+    *markusQimg = QGLWidget::convertToGLFormat(*markusQimg);
+
+    *earthQimg = QGLWidget::convertToGLFormat(*earthQimg);
+
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -107,14 +119,6 @@ void SceneWidget::cube(){
   // Here are the normals, correctly calculated for the cube faces below  
   GLfloat normals[][3] = { {1., 0. ,0.}, {-1., 0., 0.}, {0., 0., 1.}, {0., 0., -1.} };
 
-  // Here we give every face the same normal
-  //GLfloat normals[][3] = { {0.333, 0.333, 0.333 }, {0.333, 0.333, 0.333}, {0.333, 0.333, 0.333}, {0.3333, 0.3333, 0.333}};
-
-  // Here we have permuted the first normal array
-  //GLfloat normals[][3] = {{-1., 0., 0.}, {0., 0., 1.}, {0., 0., 1.}, {0., 0., -1.}};
-
-  //GLfloat normals[][3]
-
   glNormal3fv(normals[0]);
   glBegin(GL_POLYGON);
   glVertex3f(1.0, -1.0, 1.0);
@@ -149,37 +153,92 @@ void SceneWidget::cube(){
 
 }
 
-void SceneWidget::textured_cube(){
+void SceneWidget::textured_cube(QImage* texture_qimg){
 
+    // Here are the normals, correctly calculated for the cube faces below
+    GLfloat normals[][3] = { {1., 0. ,0.}, {-1., 0., 0.}, {0., 0., 1.}, {0., 0., -1.} };
+
+    glEnable(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, this->bindCount++);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_qimg->width(), texture_qimg->height(),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_qimg->bits());
+
+    //set to a different material in case the texture doesn't show up
+    setMaterial(rubyMaterial);
+    glNormal3fv(normals[3]);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(-1.0, -1.0, -1.0);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(1.0, -1.0, -1.0);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(1.0, 1.0, -1.0);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(-1.0, 1.0, -1.0);
+    glEnd();
+
+    glDisable(GL_TEXTURE_2D);
+
+    setMaterial(whiteShinyMaterial);
+    glNormal3fv(normals[0]);
+    glBegin(GL_POLYGON);
+    glVertex3f(1.0, -1.0, 1.0);
+    glVertex3f(1.0, -1.0, -1.0);
+    glVertex3f(1.0, 1.0, -1.0);
+    glVertex3f(1.0, 1.0, 1.0);
+    glEnd();
+
+    glNormal3fv(normals[1]);
+    glBegin(GL_POLYGON);
+    glVertex3f(-1.0, -1.0, 1.0);
+    glVertex3f(-1.0, -1.0, -1.0);
+    glVertex3f(-1.0, 1.0, -1.0);
+    glVertex3f(-1.0, 1.0, 1.0);
+    glEnd();
+
+    glNormal3fv(normals[2]);
+    glBegin(GL_POLYGON);
+    glVertex3f(-1.0, -1.0, 1.0);
+    glVertex3f(1.0, -1.0, 1.0);
+    glVertex3f(1.0, 1.0, 1.0);
+    glVertex3f(-1.0, 1.0, 1.0);
+    glEnd();
 }
 
 //just a function to place other test functions in, so that the main loop is clean
 void SceneWidget::test_things(){
-    glPushMatrix();
-      glTranslatef(0, -0.7, 0);
-      this->spider_web();
-    glPopMatrix();
 
-    glPushMatrix();
-      glTranslatef(0, 1, 0);
-      this->cube();
-      glTranslatef(0, 1, 0);
-      this->textured_cube();
-    glPopMatrix();
+
 }
 
 
 void SceneWidget::scene_objects(){
+
     glPushMatrix();
       glTranslatef(0, -0.7, 0);
       this->spider_web();
     glPopMatrix();
     this->spider_circular_motion();
+
+    glPushMatrix();
+      glTranslatef(0, -2, 0);
+      glRotatef(90, 1, 0, 0);
+      glScalef(10, 10, 1);
+      this->textured_cube(earthQimg);
+    glPopMatrix();
+
 }
 
 // called every time the widget needs painting
 void SceneWidget::paintGL()
 {
+    this->bindCount = 0;
+
 	// clear the widget
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -195,7 +254,7 @@ void SceneWidget::paintGL()
         // uncomment scene_objects and either write some code here or in this->test_things()
 
         this->scene_objects();
-
+        this->test_textured_cube();
 
     }
 
@@ -226,7 +285,7 @@ void SceneWidget::paintGL()
         glLighti (GL_LIGHT0, GL_SPOT_EXPONENT, 120);
         glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 180); // set light cutoff
 
-        // draw a cube where the light is
+        // draw a cube where the light is, for debugging
         glPushMatrix();
           glTranslatef(light_pos[0], light_pos[1], light_pos[2]);
           glScalef(0.1, 0.1, 0.1);
@@ -235,7 +294,7 @@ void SceneWidget::paintGL()
     }
     glPopMatrix();
 
-    glLoadIdentity(); // seems to bring things to screen space or something. Not really sure
+    glLoadIdentity(); // Not really sure what this does
 
     // camera zoom controlled by user slider
     gluLookAt(0, 0, -this->cameraZoom, 0.0,0,0.0, 0.0,1,0);
@@ -243,6 +302,7 @@ void SceneWidget::paintGL()
     glRotatef(-this->cameraAngleVert, 1, 0, 0);
     glRotatef(-this->cameraAngleHori, 0, 1, 0);
 
+    if (this->bindCount > NUM_TEXTURES){ qDebug() << bindCount << " textures binded, expected no more than " << NUM_TEXTURES;}
     if (glGetError()) { qDebug() << "GL Error : " << glGetError(); }
 	glFlush();	
 

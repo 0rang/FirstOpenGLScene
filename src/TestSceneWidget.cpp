@@ -16,12 +16,20 @@ void SceneWidget::test_earth_textured_sphere(){
 
 void SceneWidget::test_textured_cube(){
 
-}
+    glPushMatrix();
+
+      glTranslatef(0, 1, 0);
 
 
-// RGB for positive d
-void SceneWidget::highlight_axes(){
-    GLUquadric* quadric = gluNewQuadric();
+      this->textured_cube(this->marcQimg);
 
-    float axes_length = 5;
+      glTranslatef(0, 2, 0);
+
+      this->textured_cube(this->markusQimg);
+
+      glTranslatef(0, 2, 0);
+
+
+      this->textured_cube(this->earthQimg);
+    glPopMatrix();
 }

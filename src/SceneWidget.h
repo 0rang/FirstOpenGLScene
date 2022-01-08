@@ -6,6 +6,8 @@
 #include <GL/glu.h>
 #include <string>
 
+#define NUM_TEXTURES 3
+
 /* cpp files that implement this class
  * SceneWidget.cpp
  * object/DrawSpider.cpp
@@ -15,8 +17,18 @@
 class SceneWidget: public QGLWidget{
     Q_OBJECT
 public:
-    SceneWidget(QWidget *parent) { quadric = gluNewQuadric(); }
-    ~SceneWidget(){ gluDeleteQuadric(quadric); }
+    SceneWidget(QWidget *parent) {
+        quadric = gluNewQuadric();
+        marcQimg = new QImage(QString("Marc_Dekamps.ppm"));
+        markusQimg = new QImage(QString("markus.ppm"));
+        earthQimg = new QImage(QString("Mercator-projection.ppm"));
+    }
+    ~SceneWidget(){
+        gluDeleteQuadric(quadric);
+        delete marcQimg;
+        delete markusQimg;
+        delete earthQimg;
+    }
     int getCameraAngleHori() { return cameraAngleHori; }
 
 public slots:
@@ -42,15 +54,22 @@ private:
 
     int spiderCircularPos;
 
+
     GLUquadric* quadric;
-    QTimer* qTimer;
+
+
+    QImage* marcQimg;
+    QImage* markusQimg;
+    QImage* earthQimg;
+    GLuint bindCount;
+    GLuint textureIDs[3]; // 0: Marc; 1:Markus; 2: Earth; (fingers crossed)
 
     void scene_objects(); // show the whole scene
     void test_things();
 
     // convex objects with manually defined vertices and normals
 	void cube();
-    void textured_cube();
+    void textured_cube(QImage* texture_qimg); // call glBindTexture with a new number before you call this
     void pyramid();
 
     // MAYBE: encapsulate spider code in it's own class?
