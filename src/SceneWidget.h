@@ -8,6 +8,8 @@
 
 #define NUM_TEXTURES 3
 
+#define F_DEG_TO_RAD (M_PI/180.0) // namespaced radians conversion macro
+
 /* cpp files that implement this class
  * SceneWidget.cpp
  * object/DrawSpider.cpp
@@ -31,12 +33,15 @@ public:
     }
     int getCameraAngleHori() { return cameraAngleHori; }
 
+    //static bool UseSpecular;
+
 public slots:
     void SetCameraAngleHori(int angle);
     void SetCameraAngleVert(int angle);
     void SetCameraZoom(int distance);
+    void ToggleSpecular();
 
-    void IncrementCircMotionAngle();
+    void IncrementThreeSixtyTick();
 		
 protected:
 	// called when OpenGL context is set up
@@ -46,13 +51,16 @@ protected:
 	// called every time the widget needs painting
 	void paintGL();
 
+
+
 private:
     // vars that are controlled with UI
     int cameraAngleHori;
     int cameraAngleVert;
     int cameraZoom;
 
-    int spiderCircularPos;
+    int threeSixtyTick;
+
 
 
     GLUquadric* quadric;
@@ -75,12 +83,17 @@ private:
     // MAYBE: encapsulate spider code in it's own class?
     // modularised code for rendering the spider
     void spider(); //calls all the other spider components
-    void earth_textured_sphere(); // squashed sphere using earth texture
+    void earth_textured_sphere(); // squashed sphere using earth texture, not implemented
     void spider_leg(float base_length=2, float base_angle=30, float tip_length=2, float tip_angle=30); // simple leg with one joint
     void spider_circular_motion();
-    void spider_animation();
+    void spider_animation(); //not implemented
 
     //fly
+    void fly(QImage* texture_qimg, GLfloat wing_angle=135);
+    void fly_animated(QImage* texture_qimg);
+    void fly_animated_circular_motion(QImage* texture_qimg, GLfloat offset);
+    void pyramid_for_fly(); //same pyramid, different origin. for convenient rotation.
+
 
     // render the spider's web
     void spider_web();
@@ -88,6 +101,7 @@ private:
 
 
     // test functions
+    void test_fly_animated();
     void test_pyramid();
     void test_earth_textured_sphere();
     void test_textured_cube();

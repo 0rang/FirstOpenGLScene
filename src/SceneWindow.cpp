@@ -24,7 +24,7 @@ SceneWindow::SceneWindow(QWidget *parent)
     // Start timer
     qTimer = new QTimer();
     qTimer->start(30); // set animation tick period (msec)
-    connect(qTimer, SIGNAL(timeout()), sceneWidget, SLOT(IncrementCircMotionAngle()));
+    connect(qTimer, SIGNAL(timeout()), sceneWidget, SLOT(IncrementThreeSixtyTick()));
 
     //
     // Configure, label and connect the interactive UI elements
@@ -62,7 +62,14 @@ SceneWindow::SceneWindow(QWidget *parent)
     toolbar->addWidget(new QLabel("Zoom"), row, 0);
     toolbar->addWidget(cameraZoomSlider, row, 1);
     connect(cameraZoomSlider, SIGNAL(valueChanged(int)), sceneWidget, SLOT(SetCameraZoom(int)));
-    cameraZoomSlider->setValue(3);
+    cameraZoomSlider->setValue(5);
+
+    // Button to set specular properties on and off
+//    specularButton = new QPushButton();
+//    row++;
+//    toolbar->addWidget(new QLabel("Toggle Specular"), row, 0);
+//    toolbar->addWidget(specularButton, row, 0);
+//    connect(specularButton, SIGNAL(clicked()), sceneWidget, SLOT(ToggleSpecular()));
 
 }
 

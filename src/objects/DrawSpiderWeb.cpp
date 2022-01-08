@@ -5,8 +5,6 @@
 #include <cmath>
 #include <QDebug>
 
-#define F_DEG_TO_RAD (M_PI/180.0) // namespaced radians conversion macro
-
 static GLfloat strand_thickness = 0.1;
 static GLuint num_strands = 8; // MAYBE: Refactor to num_edges
 static GLfloat web_radius = 10;

@@ -121,14 +121,9 @@ void SceneWidget::spider_leg(float base_length, float base_angle, float tip_leng
     glPopMatrix();
 }
 
-//slap an earth onto a sphere
-void SceneWidget::earth_textured_sphere(){
-
-}
-
 void SceneWidget::spider_circular_motion(){
     glPushMatrix();
-      glRotatef(this->spiderCircularPos, 0, 1, 0);
+      glRotatef(this->threeSixtyTick, 0, 1, 0);
       glTranslatef(0, 0, 5);
       glRotatef(-90, 0, 1, 0);
       this->spider();

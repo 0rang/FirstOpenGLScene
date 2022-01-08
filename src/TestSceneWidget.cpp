@@ -10,9 +10,6 @@ void SceneWidget::test_pyramid(){
     glPopMatrix();
 }
 
-void SceneWidget::test_earth_textured_sphere(){
-
-}
 
 void SceneWidget::test_textured_cube(){
 

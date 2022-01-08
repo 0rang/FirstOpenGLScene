@@ -1,10 +1,11 @@
 #include "materials.h"
+#include "SceneWidget.h"
 
 void setMaterial(const materialStruct& mat){
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat.ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat.diffuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat.specular);
-    glMaterialf(GL_FRONT, GL_SHININESS, mat.shininess);
+    glMaterialf(GL_FRONT, GL_SHININESS,  mat.shininess);
 }
 
 materialStruct whiteShinyMaterial = {
@@ -72,6 +73,13 @@ materialStruct rubyMaterial = {
     {0.61424,	0.04136,	0.04136},
     {1,	0.626959,	0.626959}, //{0.727811,	0.626959,	0.626959}
     0
+};
+
+materialStruct blackishMaterial = {
+    {0.0,	0.0,	0.0	},
+    {0.01,	0.01,	0.01},
+    {0.50,	0.50,	0.50},
+    .8
 };
 
 

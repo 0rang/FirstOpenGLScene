@@ -21,7 +21,7 @@ extern materialStruct spiderWebMaterial;
 
 extern materialStruct brassMaterial;
 
-extern materialStruct obsidianishMaterial;
+extern materialStruct blackishMaterial;
 
 extern materialStruct spiderBodyMaterial;
 

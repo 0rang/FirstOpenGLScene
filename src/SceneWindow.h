@@ -5,6 +5,7 @@
 #include <QMenuBar>
 #include <QSlider>
 #include <QBoxLayout>
+#include <QPushButton>
 #include "SceneWidget.h"
 
 class SceneWindow: public QWidget{ 
@@ -22,6 +23,8 @@ public:
     QSlider* cameraZoomSlider;
     QSlider* cameraAngleHoriSlider;
     QSlider* cameraAngleVertSlider;
+
+    QPushButton* specularButton;
 
     QTimer* qTimer; // set base tick rate for animation
 

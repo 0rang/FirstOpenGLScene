@@ -15,14 +15,13 @@ windows: { LIBS += -lOpenGL32 -lGLU32 }
 HEADERS +=  \
     SceneWidget.h \
     SceneWindow.h \
-    image.h \
     materials.h
 SOURCES += \
            SceneWidget.cpp \
            SceneWindow.cpp \
            TestSceneWidget.cpp \
-           image.cpp \
            main.cpp \
            materials.cpp \
+           objects/DrawFly.cpp \
            objects/DrawSpider.cpp \
            objects/DrawSpiderWeb.cpp

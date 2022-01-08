@@ -11,8 +11,6 @@ void SceneWidget::initializeGL() {
 	// set the widget background colour
     glClearColor(0.3, 0.3, 0.3, 0.0);
 
-
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -60,12 +58,17 @@ void SceneWidget::SetCameraZoom(int distance){
     this->updateGL();
 }
 
-void SceneWidget::IncrementCircMotionAngle(){
+void SceneWidget::IncrementThreeSixtyTick(){
     int move_speed = 1;
-    this->spiderCircularPos += move_speed;
-    this->spiderCircularPos %= 360;
+    this->threeSixtyTick += move_speed;
+    this->threeSixtyTick %= 360;
 
     //TODO: same for fly0 and fly1
+    updateGL();
+}
+
+void SceneWidget::ToggleSpecular(){
+    //SceneWidget::UseSpecular = !SceneWidget::UseSpecular;
     updateGL();
 }
 
@@ -168,8 +171,6 @@ void SceneWidget::textured_cube(QImage* texture_qimg){
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_qimg->width(), texture_qimg->height(),
                  0, GL_RGBA, GL_UNSIGNED_BYTE, texture_qimg->bits());
 
-    //set to a different material in case the texture doesn't show up
-    setMaterial(rubyMaterial);
     glNormal3fv(normals[3]);
     glBegin(GL_POLYGON);
     glTexCoord2f(0.0, 0.0);
@@ -184,7 +185,6 @@ void SceneWidget::textured_cube(QImage* texture_qimg){
 
     glDisable(GL_TEXTURE_2D);
 
-    setMaterial(whiteShinyMaterial);
     glNormal3fv(normals[0]);
     glBegin(GL_POLYGON);
     glVertex3f(1.0, -1.0, 1.0);
@@ -232,6 +232,11 @@ void SceneWidget::scene_objects(){
       this->textured_cube(earthQimg);
     glPopMatrix();
 
+    glPushMatrix();
+      glTranslatef(0, 2, 0);
+      this->fly_animated_circular_motion(marcQimg, 45);
+      this->fly_animated_circular_motion(markusQimg, 90);
+    glPopMatrix();
 }
 
 // called every time the widget needs painting
@@ -254,7 +259,7 @@ void SceneWidget::paintGL()
         // uncomment scene_objects and either write some code here or in this->test_things()
 
         this->scene_objects();
-        this->test_textured_cube();
+
 
     }
 
